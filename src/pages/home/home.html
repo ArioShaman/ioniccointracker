@@ -1,14 +1,89 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content>
+<div class="my-content">
+    <ion-refresher  slot="fixed"
+      
+      (ionRefresh)="doRefresh($event)"
+    >
+      <ion-refresher-content>
+        <ion-spinner class="small-spinner" name = ios></ion-spinner>
+      </ion-refresher-content>
+    </ion-refresher>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <div class="list" (swipedown)="move($event)">
+    <div class="list-el" *ngFor="let ticker of tickers" (click)="open(ticker)">
+      <ion-grid>
+        <ion-row class="col-height">
+          <ion-col col-2>
+            <div class="box">
+              <div class="inbox">
+                <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+ticker.id+'.png'">
+              </div>
+            </div>
+          </ion-col>
+
+          <ion-col col-6>
+            <div class="box">
+              <div class="inbox">
+                <span>{{ticker.symbol}}</span> | {{ticker.name}}</div>
+            </div>
+          </ion-col>
+
+          <ion-col col-4>
+            <div class="box">
+              <div class="inbox">
+                <span>{{ticker.quotes.USD.price}} $</span>
+              </div>
+            </div>
+          </ion-col>         
+        </ion-row>
+
+        <ion-row class="col-height second-row">
+          <ion-col col-4>
+            <div class="inbox">
+              <div class="grow">
+                1h: 
+                  <span 
+                    [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
+                  >
+                    {{ticker.quotes.USD.percent_change_1h}}
+                  </span>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col col-4>
+            <div class="inbox">
+              <div class="grow">
+                24h:  
+                  <span
+                    [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
+                  >
+                    {{ticker.quotes.USD.percent_change_24h}}
+                  </span>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col col-4>
+            <div class="inbox">
+              <div class="grow">
+                7d: 
+                  <span
+                    [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
+                  >
+                    {{ticker.quotes.USD.percent_change_7d}}
+                  </span>
+              </div>
+            </div>
+          </ion-col>          
+        </ion-row>        
+      </ion-grid>
+    </div> 
+
+    <div class="button my-ios-button" (click)="yet()">
+      <div class="text">Показать еще</div>
+    </div>
+    <div class="empty"></div>
+  </div>
+
+</div>
 </ion-content>
+

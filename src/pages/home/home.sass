@@ -1,0 +1,80 @@
+$lightGrey: #DFDFDD
+
+page-home
+  .my-content
+    padding-top: 0px
+    background-color: grey
+    height: 100%
+    width: 100%
+    background-color: white
+  .list
+    position: absolute
+    height: calc(100% - 50px)
+    top: 60px
+    width: 100%    
+    background-color: white
+    overflow-y: auto
+    overflow-x: hidden     
+    .list-el
+      margin-top: 3px
+      top: 0px
+      // position: relative
+      background-color: white
+      height: 100px
+      width: 100%
+      box-shadow: 0 4px 3px -2px $lightGrey
+      .col-height
+        height: 35px
+      .box
+        height: 40px
+        // background-color: #DFDFDD
+        width: 100%
+        .inbox
+          height: 40px 
+          width: 100% 
+          // background-color: grey
+          span 
+            font-weight: 700
+          .logo
+            margin-left: 8px
+            height: 32px
+            width: 32px
+      .second-row
+        .inbox
+          height: 40px
+          // background-color: grey !important
+          .grow
+            text-align: center
+            padding-top: 15px
+            span
+              font-weight: 600
+            .increase
+              color: #29DB44
+            .decrease
+              color: red
+    .button
+      margin-left: 10%
+      margin-top: 15px
+      width: 80%
+      height: 40px
+      box-sizing: border-box
+      text-decoration: uppercase
+      padding-top: 7px
+      font-size: 17px
+      .text
+        text-align: center
+    .my-ios-button
+      background-color: white
+      border: 2px solid grey
+      border-radius: 15px
+    .android-but
+      border-radius: 15px
+    .empty
+      height: 25px
+
+.small-spinner
+  height: 20px !important
+  width: 20px !important
+ion-spinner
+  height: 40px
+  width: 40px
