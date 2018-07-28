@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ApiProvider } from '../providers/api/api';
+import { BrowserAnimationsModule , NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,8 +17,10 @@ import { ApiProvider } from '../providers/api/api';
     HomePage
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    NoopAnimationsModule,
     // HttpModule,
     IonicModule.forRoot(MyApp)
   ],

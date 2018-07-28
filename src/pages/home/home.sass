@@ -1,6 +1,17 @@
 $lightGrey: #DFDFDD
 
 page-home
+  ion-segment
+    width: 80%
+    margin-left: 10%
+    margin-top: 5px
+  .segment-body
+    z-index: 999 
+    position: fixed
+    margin-top: 60px
+    height: 40px
+    width: 100%
+    background-color: white
   .my-content
     padding-top: 0px
     background-color: grey
@@ -10,12 +21,19 @@ page-home
   .list
     position: absolute
     height: calc(100% - 50px)
-    top: 60px
+    top: 110px
     width: 100%    
     background-color: white
     overflow-y: auto
-    overflow-x: hidden     
+    overflow-x: hidden  
+    .activate
+      opacity: 1 !important   
+      transform: translateX(0%) !important
     .list-el
+      transform: translateX(-100%)
+      opacity: 0
+      transition: 0.7s
+      animation-timing-function: easy-in
       margin-top: 3px
       top: 0px
       // position: relative
