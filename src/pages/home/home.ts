@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController} from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
-import { trigger, style, transition, animate, group, state} from '@angular/animations';
+// import { trigger, style, transition, animate, group, state} from '@angular/animations';
 // import { Events } from 'ionic-angular';
 // import { Ticker } from '../../models/ticker';
 
@@ -47,8 +47,16 @@ export class HomePage {
     );
   }
   public open(ticker){
-    ticker['state'] =  ticker['state'] == 'inactive' ? 'active':'inactive';
-    console.log(ticker);
+    // console.log(ticker);
+    console.log('click');
+  }
+
+  public move(event){
+    console.log(event);
+  }
+  public addToBest(ticker){
+    // ticker['state'] =  ticker['state'] == 'inactive' ? 'active':'inactive';
+    console.log('double click');
   }
 
   public yet(){
