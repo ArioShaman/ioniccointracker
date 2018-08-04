@@ -10,6 +10,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ApiProvider } from '../providers/api/api';
 import { BrowserAnimationsModule , NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { Ng2CacheModule } from 'ng2-cache';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { BrowserAnimationsModule , NoopAnimationsModule} from '@angular/platform
     BrowserModule,
     HttpClientModule,
     NoopAnimationsModule,
-    // HttpModule,
+    Ng2CacheModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

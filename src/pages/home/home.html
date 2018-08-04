@@ -1,121 +1,244 @@
-<ion-content scrollY="true">
 
-<div showWhen="ios" class="ios-segment-body">
-      <ion-segment [(ngModel)]="page">
-        <ion-segment-button value="all">
-          All
-        </ion-segment-button>
-        <ion-segment-button value="best">
-          Best
-        </ion-segment-button>
-      </ion-segment>
+<div class="card-show" [ngClass]="openedTicker ? 'card-opened':'card-closed'">
+  <div class="close-but" (click)="close(openedTicker)"></div>
+    <ion-grid *ngIf="openedTicker" >
+      <ion-row class="col-height">
+        <ion-col col-2>
+          <div class="box">
+            <div class="inbox">
+              <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+openedTicker.id+'.png'">
+            </div>
+          </div>
+        </ion-col>
+        <ion-col col-6>
+          <div class="box">
+            <div class="inbox">
+              <span>{{openedTicker.symbol}}</span> | {{openedTicker.name}}</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>  
 </div>
 
-<div showWhen="android" class="android-segment-body">
-      <ion-segment [(ngModel)]="page">
-        <ion-segment-button value="all">
-          All
-        </ion-segment-button>
-        <ion-segment-button value="best">
-          Best
-        </ion-segment-button>
-      </ion-segment>
-</div>
+<ion-header>
+  <div class="my-header android-header">
+    <p>
+      <span>Last update:</span> {{date * 1000| date:'HH:mm'}}
+    </p>
+  </div>
+</ion-header>
 
-<div class="my-content">
+  <div showWhen="ios" class="ios-segment-body segment-body">
+        <ion-segment [(ngModel)]="page">
+          <ion-segment-button value="all">
+            All
+          </ion-segment-button>
+          <ion-segment-button value="best">
+            Best
+          </ion-segment-button>
+        </ion-segment>
+  </div>
+
+  <div showWhen="android" class="android-segment-body segment-body">
+        <ion-segment [(ngModel)]="page">
+          <ion-segment-button value="all">
+            All
+          </ion-segment-button>
+          <ion-segment-button value="best">
+            Best
+          </ion-segment-button>
+        </ion-segment>
+  </div>
+<ion-content class="my-content">
+
 
   <div [ngSwitch]="page">
-    <div *ngSwitchCase="'all'">
-        <ion-refresher  slot="fixed"
-          
-          (ionRefresh)="doRefresh($event)"
-        >
-          <ion-refresher-content>
-            <ion-spinner class="small-spinner" name = ios></ion-spinner>
+    <div *ngSwitchCase="'all'" class="swipeLeft">
+      <ion-refresher     
+        (ionRefresh)="doRefresh($event)"
+      >
+        <ion-refresher-content>
+          <ion-spinner class="small-spinner" name="ios"></ion-spinner>
+        </ion-refresher-content>
+      </ion-refresher>
+
+        <ion-list>
+          <ion-item-sliding (click)="open(ticker)" *ngFor="let ticker of tickers">
+            
+            <ion-item class="list-el" [ngClass]="[ticker.state == 'active' ? 'activate' : 'nonactivate', ticker.opened ? 'opened':'closed']">
+                <ion-grid>
+                  <ion-row class="col-height">
+                    <ion-col col-2>
+                      <div class="box">
+                        <div class="inbox">
+                          <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+ticker.id+'.png'">
+                        </div>
+                      </div>
+                    </ion-col>
+
+                    <ion-col col-6>
+                      <div class="box">
+                        <div class="inbox">
+                          <span>{{ticker.symbol}}</span> | {{ticker.name}}</div>
+                      </div>
+                    </ion-col>
+
+                    <ion-col col-4>
+                      <div class="box">
+                        <div class="inbox price">
+                          {{ticker.quotes.USD.price | number : '1.2-2'}} $
+                        </div>
+                      </div>
+                    </ion-col>         
+                  </ion-row>
+
+                  <ion-row class="col-height second-row">
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          1h: 
+                            <span 
+                              [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
+                            >
+                              {{ticker.quotes.USD.percent_change_1h}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          24h:  
+                            <span
+                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
+                            >
+                              {{ticker.quotes.USD.percent_change_24h}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          7d: 
+                            <span
+                              [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
+                            >
+                              {{ticker.quotes.USD.percent_change_7d}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>          
+                  </ion-row>       
+                </ion-grid>      
+            </ion-item>
+
+
+            <ion-item-options side="right" (click)="share(ticker)">
+              <div class="my-butt">
+                <ion-icon name="star" *ngIf="ticker.shared" isActive="true" (click)="isActive='true'"></ion-icon>
+                <ion-icon name="star" *ngIf="!ticker.shared" isActive="false" (click)="isActive='true'"></ion-icon>
+              </div>
+            </ion-item-options>
+
+          </ion-item-sliding>
+
+          <div class="button my-ios-button" (click)="yet()">
+            <div class="text">Показать еще</div>
+            </div>
+          <div class="empty"></div>    
+      </ion-list>
+    </div>  
+
+    <div *ngSwitchCase="'best'" class="swipeRight">
+      <ion-refresher  slot="fixed"        
+        (ionRefresh)="doRefresh($event)"
+      >
+        <ion-refresher-content>
+          <ion-spinner class="small-spinner" name = ios></ion-spinner>
           </ion-refresher-content>
-        </ion-refresher>
+      </ion-refresher>
 
-      <div class="list" ion-list sliding="true">
-        <div class="list-el" *ngFor="let ticker of tickers"
-          [ngClass]="ticker.state == 'active' ? 'activate' : ''"
-        >
-          <ion-grid>
-            <ion-row class="col-height">
-              <ion-col col-2>
-                <div class="box">
-                  <div class="inbox">
-                    <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+ticker.id+'.png'">
-                  </div>
-                </div>
-              </ion-col>
+        <ion-list>
+          <ion-item-sliding *ngFor="let ticker of bestTickers">
+            <ion-item class="list-el" [ngClass]="ticker.state == 'active' ? 'activate' : 'nonactivate'">
+                <ion-grid>
+                  <ion-row class="col-height">
+                    <ion-col col-2>
+                      <div class="box">
+                        <div class="inbox">
+                          <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+ticker.id+'.png'">
+                        </div>
+                      </div>
+                    </ion-col>
 
-              <ion-col col-6>
-                <div class="box">
-                  <div class="inbox">
-                    <span>{{ticker.symbol}}</span> | {{ticker.name}}</div>
-                </div>
-              </ion-col>
+                    <ion-col col-6>
+                      <div class="box">
+                        <div class="inbox">
+                          <span>{{ticker.symbol}}</span> | {{ticker.name}}</div>
+                      </div>
+                    </ion-col>
 
-              <ion-col col-4>
-                <div class="box">
-                  <div class="inbox">
-                    <span>{{ticker.quotes.USD.price}} $</span>
-                  </div>
-                </div>
-              </ion-col>         
-            </ion-row>
+                    <ion-col col-4>
+                      <div class="box">
+                        <div class="inbox price">
+                          {{ticker.quotes.USD.price | number : '1.2-2'}} $
+                        </div>
+                      </div>
+                    </ion-col>         
+                  </ion-row>
 
-            <ion-row class="col-height second-row">
-              <ion-col col-4>
-                <div class="inbox">
-                  <div class="grow">
-                    1h: 
-                      <span 
-                        [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
-                      >
-                        {{ticker.quotes.USD.percent_change_1h}}
-                      </span>
-                  </div>
-                </div>
-              </ion-col>
-              <ion-col col-4>
-                <div class="inbox">
-                  <div class="grow">
-                    24h:  
-                      <span
-                        [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
-                      >
-                        {{ticker.quotes.USD.percent_change_24h}}
-                      </span>
-                  </div>
-                </div>
-              </ion-col>
-              <ion-col col-4>
-                <div class="inbox">
-                  <div class="grow">
-                    7d: 
-                      <span
-                        [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
-                      >
-                        {{ticker.quotes.USD.percent_change_7d}}
-                      </span>
-                  </div>
-                </div>
-              </ion-col>          
-            </ion-row>        </ion-grid>
-        </div> 
+                  <ion-row class="col-height second-row">
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          1h: 
+                            <span 
+                              [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
+                            >
+                              {{ticker.quotes.USD.percent_change_1h}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          24h:  
+                            <span
+                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
+                            >
+                              {{ticker.quotes.USD.percent_change_24h}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>
+                    <ion-col col-4>
+                      <div class="inbox">
+                        <div class="grow">
+                          7d: 
+                            <span
+                              [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
+                            >
+                              {{ticker.quotes.USD.percent_change_7d}}
+                            </span>
+                        </div>
+                      </div>
+                    </ion-col>          
+                  </ion-row>       
+                </ion-grid>      
+            </ion-item>
 
-        <div class="button my-ios-button" (click)="yet()">
-          <div class="text">Показать еще</div>
-        </div>
-        <div class="empty"></div>
-      </div>
 
-    </div>
+            <ion-item-options side="right" (click)="destroy(ticker)">
+              <div class="my-butt trash">
+                <ion-icon name="trash"></ion-icon>
+              </div>
+            </ion-item-options>
 
-  <div *ngSwitchCase="'best'">
-  </div>
-</div>
+          </ion-item-sliding>
+          <div class="empty"></div>    
+      </ion-list>
+    </div>    
   </div>
 </ion-content>
-

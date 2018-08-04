@@ -1,85 +1,125 @@
 $lightGrey: #DFDFDD
 
 page-home
-  .ios-segment-body
-    z-index: 999 
-    position: fixed
-    margin-top: 40px
-    height: 40px
-    width: 100%
+  .close-but
+    height: 20px
+    width: 20px
+    background-color: grey
+    position: absolute
+    top: 20px
+    right: 20px
+  .card-closed
+    height: 0%
+    top: 50%
+    .close-but 
+      display: none
+  .card-opened
+    top: 0%
+    height: 100%
+    .close-but 
+      display: block    
+  .card-show
+    transition: 0.7s
+    z-index: 2000 !important
     background-color: white
+    position: absolute
+    width: 100%
+  .ios-header
+    top: -20px
+  .android-header
+    top: -20px
+  .my-header
+    position: relative
+    height: 60px
+    width: 100%
+    z-index: 999
+    // margin-top: -10px
+    background-color: white
+    span
+      font-weight: 700
+    h1, h2, h3, h4, p
+      padding-right: 10px
+      padding-top: 25px
+      text-align: right
+  .item-ios
+    padding-left: 0px !important
+  .trash
+    ion-icon
+      color: #A31900 !important
+  .my-butt
+    margin-top: 4px
+    width: 50px
+    height: 100%
+    background-color: white    
+    ion-icon
+      font-size: 30px
+      color: #E0C029
+      margin-top: 40px
+  .segment-body
+    width: 100%    
+    z-index: 900  
+    position: fixed    
+    margin-top: 50px
+    background-color: white
+    ion-segment
+      z-index: 2100 !important
+  .ios-segment-body
+    height: 40px
     ion-segment
       width: 80%
       margin-left: 10%
       margin-top: 5px
   .android-segment-body
-    z-index: 999 
-    position: fixed
-    margin-top: 40px
     height: 50px
-    width: 100%
-    background-color: white
     ion-segment
       width: 100%
       margin-top: 5px      
   .my-content
-    padding-top: 0px
-    background-color: grey
-    height: 100%
+    // padding-top: 0px
+    // background-color: $lightGrey !important
+    height: calc(100% + 25px)
+    margin-top: -25px
     width: 100%
     background-color: white
-  .list
-    position: absolute
-    height: calc(100% - 50px)
-    top: 110px
+  ion-list
+    // position: fixed
+    // height: calc(100% - 90px)
+    margin-top: 40px !important
     width: 100%    
     background-color: white
-    overflow-y: auto
-    overflow-x: hidden  
+    overflow-y: scroll
+    overflow-x: hidden
     .activate
-      opacity: 1 !important   
-      transform: translateX(0%) !important
-    .list-el
-      transform: translateX(-100%)
+      opacity: 1
+      transform: translateX(0%)
+    .nonactivate
       opacity: 0
+      transform: translateX(-100%)  
+    .opened
+      height: 450px
+      top: 0px
+      transition: 0.7s
+      ion-grid
+        transition: 0.7s
+        opacity: 0
+    .closed    
+      height: 100px
+      position: relative
+      transition: 0.7s
+      ion-grid
+        transition: 0.7s
+        opacity: 1      
+    .list-el 
+      background-color: white
+      opacity: 1
       transition: 0.7s
       animation-timing-function: easy-in
       margin-top: 3px
       top: 0px
       // position: relative
       background-color: white
-      height: 100px
       width: 100%
       box-shadow: 0 4px 3px -2px $lightGrey
-      .col-height
-        height: 35px
-      .box
-        height: 40px
-        // background-color: #DFDFDD
-        width: 100%
-        .inbox
-          height: 40px 
-          width: 100% 
-          // background-color: grey
-          span 
-            font-weight: 700
-          .logo
-            margin-left: 8px
-            height: 32px
-            width: 32px
-      .second-row
-        .inbox
-          height: 40px
-          // background-color: grey !important
-          .grow
-            text-align: center
-            padding-top: 15px
-            span
-              font-weight: 600
-            .increase
-              color: #29DB44
-            .decrease
-              color: red
     .button
       margin-left: 10%
       margin-top: 15px
@@ -100,9 +140,68 @@ page-home
     .empty
       height: 25px
 
+.col-height
+  height: 35px
+.box
+  height: 40px
+  // background-color: #DFDFDD
+  width: 100%
+  .price
+    text-align: center
+    font-weight: 700
+  .inbox
+    height: 40px 
+    width: 100% 
+    // background-color: grey
+    span 
+      font-weight: 700
+    .logo
+      margin-left: 8px
+      height: 32px
+      width: 32px
+.second-row
+  .inbox
+    height: 40px
+    // background-color: grey !important
+    .grow
+      text-align: center
+      padding-top: 15px
+      span
+        font-weight: 600
+      .increase
+        color: #29DB44
+      .decrease
+        color: red
+
 .small-spinner
+  z-index: 3000 !important
   height: 20px !important
   width: 20px !important
+
 ion-spinner
-  height: 40px
-  width: 40px
+  height: 30px
+  width: 30px
+
+ion-refresher
+  top: 0px !important
+  // background-color: grey !important
+.swipeLeft
+  animation: SwipeLeft 0.5s
+
+.swipeRight
+  animation: SwipeRight 0.5s
+
+.segment-activated
+  transition: 300ms all linear !important
+
+@keyframes SwipeLeft
+  0%
+    transform: translateX(100%)
+  100%
+    transform: translateX(0%)
+
+@keyframes SwipeRight
+  0%
+    transform: translateX(-100%)
+  100%
+    transform: translateX(0%)
