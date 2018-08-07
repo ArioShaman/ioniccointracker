@@ -1,23 +1,25 @@
 
 <div class="card-show" [ngClass]="openedTicker ? 'card-opened':'card-closed'">
-  <div class="close-but" (click)="close(openedTicker)"></div>
-    <ion-grid *ngIf="openedTicker" >
-      <ion-row class="col-height">
-        <ion-col col-2>
-          <div class="box">
-            <div class="inbox">
-              <img class="logo" [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+openedTicker.id+'.png'">
-            </div>
-          </div>
-        </ion-col>
-        <ion-col col-6>
-          <div class="box">
-            <div class="inbox">
-              <span>{{openedTicker.symbol}}</span> | {{openedTicker.name}}</div>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>  
+  <div class="close-but" (click)="close(openedTicker)">
+    <ion-icon name="close"></ion-icon>
+  </div>
+
+  <div>
+    <div class="header" *ngIf="openedTicker">
+      <div class="logo">
+        <img [src]="'https://s2.coinmarketcap.com/static/img/coins/32x32/'+openedTicker.id+'.png'">
+      </div>
+      <div class="title">
+              <span>{{openedTicker.symbol}}</span> | {{openedTicker.name}}
+      </div>
+    </div>
+
+    <div class="plot-cont" *ngIf="openedTicker">
+      <line-chart [activeCoin]="openedTicker['symbol']"></line-chart>
+    </div>
+  </div>
+
+
 </div>
 
 <ion-header>
@@ -54,7 +56,7 @@
 
   <div [ngSwitch]="page">
     <div *ngSwitchCase="'all'" class="swipeLeft">
-      <ion-refresher     
+      <ion-refresher
         (ionRefresh)="doRefresh($event)"
       >
         <ion-refresher-content>
@@ -63,9 +65,9 @@
       </ion-refresher>
 
         <ion-list>
-          <ion-item-sliding (click)="open(ticker)" *ngFor="let ticker of tickers">
-            
-            <ion-item class="list-el" [ngClass]="[ticker.state == 'active' ? 'activate' : 'nonactivate', ticker.opened ? 'opened':'closed']">
+          <ion-item-sliding *ngFor="let ticker of tickers">
+
+            <ion-item class="list-el" (click)="open(ticker)" [ngClass]="[ticker.state == 'active' ? 'activate' : 'nonactivate', ticker.opened ? 'opened':'closed']">
                 <ion-grid>
                   <ion-row class="col-height">
                     <ion-col col-2>
@@ -89,15 +91,15 @@
                           {{ticker.quotes.USD.price | number : '1.2-2'}} $
                         </div>
                       </div>
-                    </ion-col>         
+                    </ion-col>
                   </ion-row>
 
                   <ion-row class="col-height second-row">
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          1h: 
-                            <span 
+                          1h:
+                            <span
                               [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
                             >
                               {{ticker.quotes.USD.percent_change_1h}}
@@ -108,9 +110,9 @@
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          24h:  
+                          24h:
                             <span
-                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
+                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"
                             >
                               {{ticker.quotes.USD.percent_change_24h}}
                             </span>
@@ -120,7 +122,7 @@
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          7d: 
+                          7d:
                             <span
                               [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
                             >
@@ -128,9 +130,9 @@
                             </span>
                         </div>
                       </div>
-                    </ion-col>          
-                  </ion-row>       
-                </ion-grid>      
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
             </ion-item>
 
 
@@ -146,12 +148,12 @@
           <div class="button my-ios-button" (click)="yet()">
             <div class="text">Показать еще</div>
             </div>
-          <div class="empty"></div>    
+          <div class="empty"></div>
       </ion-list>
-    </div>  
+    </div>
 
     <div *ngSwitchCase="'best'" class="swipeRight">
-      <ion-refresher  slot="fixed"        
+      <ion-refresher  slot="fixed"
         (ionRefresh)="doRefresh($event)"
       >
         <ion-refresher-content>
@@ -161,7 +163,7 @@
 
         <ion-list>
           <ion-item-sliding *ngFor="let ticker of bestTickers">
-            <ion-item class="list-el" [ngClass]="ticker.state == 'active' ? 'activate' : 'nonactivate'">
+            <ion-item (click)="open(ticker)"  class="list-el" [ngClass]="ticker.state == 'active' ? 'activate' : 'nonactivate'">
                 <ion-grid>
                   <ion-row class="col-height">
                     <ion-col col-2>
@@ -185,15 +187,15 @@
                           {{ticker.quotes.USD.price | number : '1.2-2'}} $
                         </div>
                       </div>
-                    </ion-col>         
+                    </ion-col>
                   </ion-row>
 
                   <ion-row class="col-height second-row">
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          1h: 
-                            <span 
+                          1h:
+                            <span
                               [ngClass]="ticker.quotes.USD.percent_change_1h > 0 ? 'increase': 'decrease'"
                             >
                               {{ticker.quotes.USD.percent_change_1h}}
@@ -204,9 +206,9 @@
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          24h:  
+                          24h:
                             <span
-                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"                  
+                              [ngClass]="ticker.quotes.USD.percent_change_24h > 0 ? 'increase': 'decrease'"
                             >
                               {{ticker.quotes.USD.percent_change_24h}}
                             </span>
@@ -216,7 +218,7 @@
                     <ion-col col-4>
                       <div class="inbox">
                         <div class="grow">
-                          7d: 
+                          7d:
                             <span
                               [ngClass]="ticker.quotes.USD.percent_change_7dh > 0 ? 'increase': 'decrease'"
                             >
@@ -224,9 +226,9 @@
                             </span>
                         </div>
                       </div>
-                    </ion-col>          
-                  </ion-row>       
-                </ion-grid>      
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
             </ion-item>
 
 
@@ -237,8 +239,8 @@
             </ion-item-options>
 
           </ion-item-sliding>
-          <div class="empty"></div>    
+          <div class="empty"></div>
       </ion-list>
-    </div>    
+    </div>
   </div>
 </ion-content>

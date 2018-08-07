@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavController, LoadingController} from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
-import { CacheService, CacheStoragesEnum } from 'ng2-cache';
+import { CacheService } from 'ng2-cache';
 // import { Ticker } from '../../models/ticker';
 
 @Component({
@@ -9,17 +9,19 @@ import { CacheService, CacheStoragesEnum } from 'ng2-cache';
   templateUrl: 'home.html',
   providers: [ApiProvider],
 })
+
 export class HomePage {
 
-  public tickers:Array<any>;// = [];
-  public bestTickers:Array<any>;// = [];
-  public start:number = 0;
-  public limit:number = 10;
-  public currentCount = this.limit;
+  public tickers:             Array<any>;// = [];
+  public bestTickers:         Array<any>;// = [];
+  public start:number                 = 0;
+  public limit:number                 = 3;
+  public currentCount                 = this.limit;
   public page = 'all';
-  public date:Date;
-  public opened:boolean = false;
-  public openedTicker:Object;
+  public date:                Date;
+  public opened:              boolean = false;
+  public openedTicker:        Object;
+
 
   constructor(public navCtrl: NavController,
               public loadingCtrl: LoadingController,
@@ -47,18 +49,25 @@ export class HomePage {
           for(let ticker of this.tickers){
             ticker["shared"] = false;
             ticker["opened"] = false;
+            ticker["state"]= "inactive";
             for(let best of this.bestTickers){
                 if(ticker['id'] == best['id']){
                   ticker['shared'] = true;
                 }
             }
           }
-          this.cache.set('tickers', this.tickers);  
+          let time = 0;
+          for(let ticker of this.tickers){
+            setTimeout(function(){
+              ticker["state"]="active";
+            }, time+=300);
+          }
+          this.cache.set('tickers', this.tickers);
           loading.dismiss();
 
         }
 
-      );  
+      );
     }else{
       loading.dismiss();
       console.log('load');
@@ -71,18 +80,18 @@ export class HomePage {
       setTimeout(function(){
         ticker["state"]="active";
       }, time+=300);
-    }        
+    }
   }
   public open(ticker){
     this.opened = true;
     this.openedTicker = ticker;
     for(let listel of this.tickers){
       if(ticker != listel){
-        listel["opened"] = false;  
+        listel["opened"] = false;
       }
     }
     ticker["opened"] = !ticker["opened"];
-    console.log(ticker);
+    // console.log(this.openedTicker);
   }
 
   public close(ticker){
@@ -112,7 +121,7 @@ export class HomePage {
           ticker['shared'] = true;
         }
       }
-    }    
+    }
   }
 
   public yet(){
@@ -122,18 +131,18 @@ export class HomePage {
       duration: 100
     });
 
-    this.start += this.limit;
+    this.start += this.limit + 1;
     this.currentCount += this.limit;
     this.apiProvider.get('ticker/?structure=array&start='+this.start+'&limit='+this.limit).subscribe(
       res => {
-       let time = 0;        
+       let time = 0;
         for(let key in res['data']){
           this.date = res['metadata']['timestamp'];
           this.cache.set('lastUpdate', this.date);
           let ticker = res['data'][key];
           ticker['state'] = 'inactive';
           ticker["opened"] = false;
-          ticker["shared"] = false;                    
+          ticker["shared"] = false;
           this.tickers.push(ticker);
           for(let best of this.bestTickers){
               if(ticker['id'] == best['id']){
@@ -142,18 +151,18 @@ export class HomePage {
           }
           setTimeout(function(){
             ticker["state"]="active"
-          }, time+=300);          
+          }, time+=300);
         }
         // console.log(res['data']);
         this.cache.set('tickers', this.tickers);
-        console.log(this.cache.get('tickers')); 
+        console.log(this.cache.get('tickers'));
       });
-    loading.present();    
+    loading.present();
   }
 
   doRefresh(refresher) {
     this.apiProvider.get('ticker/?structure=array&start=0&limit='+this.currentCount).subscribe(
-      res => {       
+      res => {
         this.tickers = res['data'];
         this.date = res['metadata']['timestamp'];
         this.cache.set('lastUpdate', this.date);
@@ -164,18 +173,18 @@ export class HomePage {
               if(ticker['id'] == best['id']){
                 ticker['shared'] = true;
               }
-          }          
+          }
         }
         let time = 0;
         for(let ticker of this.tickers){
           setTimeout(function(){
             ticker["state"]="active"
           }, time+=300);
-        } 
+        }
         setTimeout(() => {
           refresher.complete();
         }, 1000);
-        
+
       }
     );
   }

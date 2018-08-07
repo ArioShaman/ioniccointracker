@@ -1,0 +1,39 @@
+<div showWhen="ios" class="ios-segment-body segment-body">
+      <ion-segment [(ngModel)]="kindData">
+        <ion-segment-button value="days">
+          day
+        </ion-segment-button>
+        <ion-segment-button value="month">
+          month
+        </ion-segment-button>
+        <ion-segment-button value="year">
+          year
+        </ion-segment-button>
+      </ion-segment>
+</div>
+
+<div showWhen="android" class="android-segment-body segment-body">
+      <ion-segment [(ngModel)]="kindData" (ionChange)=onSegmentChanged($event)>
+        <ion-segment-button value="days" >
+          days
+        </ion-segment-button>
+        <ion-segment-button value="month">
+          month
+        </ion-segment-button>
+        <ion-segment-button value="year">
+          year
+        </ion-segment-button>
+      </ion-segment>
+</div>
+<ion-content class="graph-content">
+  <div [ngSwitch]="kindData">
+    <div *ngSwitchCase="'days'" class="graph-content">
+      <div id="chartdiv" [style.width.%]="100" [style.height.px]="300"></div>`
+    </div>
+    <div *ngSwitchCase="'month'">
+    </div>
+    <div *ngSwitchCase="'year'">
+    </div>
+  </div>
+
+</ion-content>

@@ -1,29 +1,72 @@
 $lightGrey: #DFDFDD
 
 page-home
+  $close-but: 20px
+  .amcharts-chart-div
+    a
+      display: none !important
   .close-but
-    height: 20px
-    width: 20px
-    background-color: grey
+    height: $close-but
+    width: $close-but
+    // background-color: grey
     position: absolute
-    top: 20px
-    right: 20px
+    top: 25px
+    right: 3%
+    ion-icon
+      margin-top: 0px
+      font-size: 1.5*$close-but
   .card-closed
     height: 0%
     top: 50%
-    .close-but 
+    .close-but
       display: none
+    .plot-cont
+      transition: 0.7s opacity
+      height: 0px
+      opacity: 0
   .card-opened
     top: 0%
     height: 100%
-    .close-but 
-      display: block    
+    .close-but
+      display: block
+    .plot-cont
+      transition: 0.3s opacity
+      opacity: 1
+      height: 300px
   .card-show
     transition: 0.7s
     z-index: 2000 !important
     background-color: white
     position: absolute
     width: 100%
+    .header
+      margin-top: 15px
+      height: 50px
+      width: 100%
+      // background-color: $lightGrey
+      display: flex
+      .logo
+        margin: 10px
+        height: 40px
+        width: 40px
+        img
+          height: 100%
+          width: 100%
+      .title
+        width: auto
+        height: 30px
+        margin-top: 20px
+        margin-left: 15px
+        font-size: 18px
+        span
+          font-weight: 700
+          font-size: 18px !important
+    .plot-cont
+      transition: 0.4s height
+      width: 94%
+      margin-top: 10px
+      margin-left: 3%
+      // background-color: $lightGrey
   .ios-header
     top: -20px
   .android-header
@@ -50,15 +93,15 @@ page-home
     margin-top: 4px
     width: 50px
     height: 100%
-    background-color: white    
+    background-color: white
     ion-icon
       font-size: 30px
       color: #E0C029
       margin-top: 40px
   .segment-body
-    width: 100%    
-    z-index: 900  
-    position: fixed    
+    width: 100%
+    z-index: 900
+    position: fixed
     margin-top: 50px
     background-color: white
     ion-segment
@@ -73,19 +116,15 @@ page-home
     height: 50px
     ion-segment
       width: 100%
-      margin-top: 5px      
+      margin-top: 5px
   .my-content
-    // padding-top: 0px
-    // background-color: $lightGrey !important
     height: calc(100% + 25px)
     margin-top: -25px
     width: 100%
     background-color: white
   ion-list
-    // position: fixed
-    // height: calc(100% - 90px)
     margin-top: 40px !important
-    width: 100%    
+    width: 100%
     background-color: white
     overflow-y: scroll
     overflow-x: hidden
@@ -94,7 +133,7 @@ page-home
       transform: translateX(0%)
     .nonactivate
       opacity: 0
-      transform: translateX(-100%)  
+      transform: translateX(-100%)
     .opened
       height: 450px
       top: 0px
@@ -102,14 +141,14 @@ page-home
       ion-grid
         transition: 0.7s
         opacity: 0
-    .closed    
+    .closed
       height: 100px
       position: relative
       transition: 0.7s
       ion-grid
         transition: 0.7s
-        opacity: 1      
-    .list-el 
+        opacity: 1
+    .list-el
       background-color: white
       opacity: 1
       transition: 0.7s
@@ -150,10 +189,10 @@ page-home
     text-align: center
     font-weight: 700
   .inbox
-    height: 40px 
-    width: 100% 
+    height: 40px
+    width: 100%
     // background-color: grey
-    span 
+    span
       font-weight: 700
     .logo
       margin-left: 8px
