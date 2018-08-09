@@ -3,7 +3,7 @@ import { AmChartsModule } from "@amcharts/amcharts3-angular";
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicModule } from 'ionic-angular';
 import { MyApp } from '../app/app.component';
 
 @NgModule({

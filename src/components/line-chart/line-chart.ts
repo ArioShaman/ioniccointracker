@@ -43,7 +43,7 @@ export class LineChartComponent {
          break;
        }
        default: {
-          daysLineChartData();
+          this.daysData();
           break;
        }
     }
@@ -56,13 +56,15 @@ export class LineChartComponent {
             this.daysLineChartData = res['Data'];
             for(let dayData of this.daysLineChartData){
               let date = new Date(dayData['time']*1000);
+              console.log(date);
               var year = date.getFullYear();
-              var month =  parseInt(date.getMonth()) + 1 < 10 ? '0' + (parseInt(date.getMonth()) + 1) : parseInt(date.getMonth()) + 1 ;
+              var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+              console.log(month );
               var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
               dayData['date'] = year + '-' + month + '-' + day;
             }
             console.log(this.daysLineChartData);
-            var chart = AmCharts.makeChart( "chartdiv", {
+            this.chart = this.AmCharts.makeChart( "chartdiv", {
               "type": "serial",
               "theme": "light",
               "dataDateFormat":"YYYY-MM-DD",

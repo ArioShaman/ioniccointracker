@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, LoadingController} from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import { CacheService } from 'ng2-cache';
@@ -72,7 +72,7 @@ export class HomePage {
       loading.dismiss();
       console.log('load');
       this.date = this.cache.get('lastUpdate');
-      this.openedTicker = this.tickers[0];
+      // this.openedTicker = this.tickers[0];
     }
     let time = 0;
     for(let ticker of this.tickers){
